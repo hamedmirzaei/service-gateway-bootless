@@ -5,6 +5,7 @@ import com.navaco.gateway.enums.EurekaServiceStatusType;
 import com.navaco.gateway.enums.converter.EurekaServiceStatusTypeConverter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -24,6 +25,9 @@ public class EurekaServiceStatusEntity {
     @Convert(converter = EurekaServiceStatusTypeConverter.class)
     private EurekaServiceStatusType eurekaServiceStatusType;
 
+    @Column(name = "STATUS_DESCRIPTION")
+    private String description;
+
     @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "eurekaServiceStatusEntity")
     private List<ContextPathEurekaServiceMappingEntity> contextPathEurekaServiceMappingEntityList;
@@ -31,12 +35,15 @@ public class EurekaServiceStatusEntity {
     public EurekaServiceStatusEntity() {
     }
 
-    public EurekaServiceStatusEntity(EurekaServiceStatusType eurekaServiceStatusType) {
+    public EurekaServiceStatusEntity(EurekaServiceStatusType eurekaServiceStatusType, String description) {
         this.eurekaServiceStatusType = eurekaServiceStatusType;
+        this.description = description;
+        this.contextPathEurekaServiceMappingEntityList = new ArrayList<>();
     }
 
-    public EurekaServiceStatusEntity(EurekaServiceStatusType eurekaServiceStatusType, List<ContextPathEurekaServiceMappingEntity> contextPathEurekaServiceMappingEntityList) {
+    public EurekaServiceStatusEntity(EurekaServiceStatusType eurekaServiceStatusType, String description, List<ContextPathEurekaServiceMappingEntity> contextPathEurekaServiceMappingEntityList) {
         this.eurekaServiceStatusType = eurekaServiceStatusType;
+        this.description = description;
         this.contextPathEurekaServiceMappingEntityList = contextPathEurekaServiceMappingEntityList;
     }
 
@@ -56,6 +63,14 @@ public class EurekaServiceStatusEntity {
         this.eurekaServiceStatusType = eurekaServiceStatusType;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public List<ContextPathEurekaServiceMappingEntity> getContextPathEurekaServiceMappingEntityList() {
         return contextPathEurekaServiceMappingEntityList;
     }
@@ -66,9 +81,10 @@ public class EurekaServiceStatusEntity {
 
     @Override
     public String toString() {
-        return "EurekaServiceStatusType{" +
+        return "EurekaServiceStatusEntity{" +
                 "id=" + id +
-                ", eurekaServiceStatusType='" + eurekaServiceStatusType + '\'' +
+                ", eurekaServiceStatusType=" + eurekaServiceStatusType +
+                ", description='" + description + '\'' +
                 '}';
     }
 }

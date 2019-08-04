@@ -5,6 +5,7 @@ import com.navaco.gateway.enums.SubSystemCategoryType;
 import com.navaco.gateway.enums.converter.SubSystemCategoryTypeConverter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -24,6 +25,9 @@ public class SubSystemCategoryEntity {
     @Convert(converter = SubSystemCategoryTypeConverter.class)
     private SubSystemCategoryType subSystemCategoryType;
 
+    @Column(name = "CATEGORY_DESCRIPTION")
+    private String description;
+
     @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "subSystemCategoryEntity")
     private List<ContextPathEurekaServiceMappingEntity> contextPathEurekaServiceMappingEntityList;
@@ -35,8 +39,15 @@ public class SubSystemCategoryEntity {
         this.subSystemCategoryType = subSystemCategoryType;
     }
 
-    public SubSystemCategoryEntity(SubSystemCategoryType subSystemCategoryType, List<ContextPathEurekaServiceMappingEntity> contextPathEurekaServiceMappingEntityList) {
+    public SubSystemCategoryEntity(SubSystemCategoryType subSystemCategoryType, String description) {
         this.subSystemCategoryType = subSystemCategoryType;
+        this.description = description;
+        this.contextPathEurekaServiceMappingEntityList = new ArrayList<>();
+    }
+
+    public SubSystemCategoryEntity(SubSystemCategoryType subSystemCategoryType, String description, List<ContextPathEurekaServiceMappingEntity> contextPathEurekaServiceMappingEntityList) {
+        this.subSystemCategoryType = subSystemCategoryType;
+        this.description = description;
         this.contextPathEurekaServiceMappingEntityList = contextPathEurekaServiceMappingEntityList;
     }
 
@@ -56,6 +67,14 @@ public class SubSystemCategoryEntity {
         this.subSystemCategoryType = subSystemCategoryType;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public List<ContextPathEurekaServiceMappingEntity> getContextPathEurekaServiceMappingEntityList() {
         return contextPathEurekaServiceMappingEntityList;
     }
@@ -66,10 +85,10 @@ public class SubSystemCategoryEntity {
 
     @Override
     public String toString() {
-        return "SubSystemCategoryType{" +
+        return "SubSystemCategoryEntity{" +
                 "id=" + id +
-                ", subSystemCategoryType='" + subSystemCategoryType + '\'' +
+                ", subSystemCategoryType=" + subSystemCategoryType +
+                ", description='" + description + '\'' +
                 '}';
     }
-
 }

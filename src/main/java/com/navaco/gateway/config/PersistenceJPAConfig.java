@@ -22,7 +22,6 @@ import java.util.Properties;
 @Configuration
 @EnableTransactionManagement
 @PropertySource({ "classpath:database.properties" })
-@ComponentScan({ "com.navaco.gateway" })
 @EnableJpaRepositories(basePackages = "com.navaco.gateway.repository")
 public class PersistenceJPAConfig {
 

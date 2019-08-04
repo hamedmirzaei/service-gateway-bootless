@@ -8,7 +8,6 @@ import java.util.Date;
 
 @Entity
 @Table(name = ContextPathEurekaServiceMappingEntity.CONTEXT_SERVICE_MAPPING_TABLE_NAME, schema = "USRPRF")
-//@EntityListeners(AuditingEntityListener.class)
 public class ContextPathEurekaServiceMappingEntity implements Serializable {
 
     public static final String CONTEXT_SERVICE_MAPPING_TABLE_NAME = "CONTEXT_PATH_EUREKA_SERVICE_MAPPING";
@@ -37,13 +36,9 @@ public class ContextPathEurekaServiceMappingEntity implements Serializable {
     private SubSystemCategoryEntity subSystemCategoryEntity;
 
     @Column(nullable = false, updatable = false, name = "CREATED_AT")
-    //@Temporal(TemporalType.TIMESTAMP)
-    //@CreatedDate
     private Date createdAt;
 
     @Column(nullable = false, name = "UPDATED_AT")
-    //@Temporal(TemporalType.TIMESTAMP)
-    //@LastModifiedDate
     private Date updatedAt;
 
     public ContextPathEurekaServiceMappingEntity() {
