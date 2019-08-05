@@ -3,6 +3,7 @@ package ir.navaco.core.gateway.api;
 import ir.navaco.core.gateway.entity.ContextPathEurekaServiceMappingEntity;
 import ir.navaco.core.gateway.entity.EurekaServiceStatusEntity;
 import ir.navaco.core.gateway.entity.SubSystemCategoryEntity;
+import ir.navaco.core.gateway.enums.EurekaServiceStatusType;
 import ir.navaco.core.gateway.service.CamelRouteSetupRefresherService;
 import ir.navaco.core.gateway.service.ContextPathEurekaServiceMappingService;
 import ir.navaco.core.gateway.service.EurekaServiceStatusService;
@@ -15,7 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/service-gateway")
-public class CamelController {
+public class ServiceGatewayController {
 
     private ContextPathEurekaServiceMappingService contextPathEurekaServiceMappingService;
     private EurekaServiceStatusService eurekaServiceStatusService;
@@ -23,10 +24,10 @@ public class CamelController {
     private CamelRouteSetupRefresherService camelRouteSetupRefresherService;
 
     @Autowired
-    public CamelController(ContextPathEurekaServiceMappingService contextPathEurekaServiceMappingService,
-                           EurekaServiceStatusService eurekaServiceStatusService,
-                           SubSystemCategoryService subSystemCategoryService,
-                           CamelRouteSetupRefresherService camelRouteSetupRefresherService) {
+    public ServiceGatewayController(ContextPathEurekaServiceMappingService contextPathEurekaServiceMappingService,
+                                    EurekaServiceStatusService eurekaServiceStatusService,
+                                    SubSystemCategoryService subSystemCategoryService,
+                                    CamelRouteSetupRefresherService camelRouteSetupRefresherService) {
         this.contextPathEurekaServiceMappingService = contextPathEurekaServiceMappingService;
         this.eurekaServiceStatusService = eurekaServiceStatusService;
         this.subSystemCategoryService = subSystemCategoryService;
@@ -46,7 +47,9 @@ public class CamelController {
     @PostMapping(value = "/services", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ContextPathEurekaServiceMappingEntity addService(@RequestBody ContextPathEurekaServiceMappingEntity contextPathEurekaServiceMappingEntity) {
         ContextPathEurekaServiceMappingEntity ce = contextPathEurekaServiceMappingService.addContextPathEurekaServiceMappingEntity(contextPathEurekaServiceMappingEntity);
-        refreshRoutes();
+        // if the service is active and published to the world
+        if (ce.getEurekaServiceStatusEntity().getEurekaServiceStatusType() == EurekaServiceStatusType.PUBLISHED)
+            refreshRoutes();
         return ce;
     }
 
