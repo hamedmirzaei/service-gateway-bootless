@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 public class SubSystemCategoryServiceImpl implements SubSystemCategoryService {
 
@@ -21,5 +23,10 @@ public class SubSystemCategoryServiceImpl implements SubSystemCategoryService {
     @Override
     public SubSystemCategoryEntity getSubSystemCategoryBySubSystemCategoryType(SubSystemCategoryType subSystemCategoryType) {
         return subSystemCategoryRepository.findBySubSystemCategoryType(subSystemCategoryType);
+    }
+
+    @Override
+    public List<SubSystemCategoryEntity> getSubSystemCategoryEntities() {
+        return subSystemCategoryRepository.findAll();
     }
 }

@@ -1,12 +1,15 @@
 package ir.navaco.core.gateway.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 @Table(name = ContextPathEurekaServiceMappingEntity.CONTEXT_SERVICE_MAPPING_TABLE_NAME, schema = "USRPRF")
 public class ContextPathEurekaServiceMappingEntity implements Serializable {
 
@@ -25,20 +28,24 @@ public class ContextPathEurekaServiceMappingEntity implements Serializable {
     @Column(name = "EUREKA_SERVICE_NAME", nullable = false)
     private String eurekaServiceName;
 
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    @ManyToOne(fetch = FetchType.LAZY)
+    //@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "EUREKA_SERVICE_STATUS_ID", referencedColumnName = "ID")
     private EurekaServiceStatusEntity eurekaServiceStatusEntity;
 
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    @ManyToOne(fetch = FetchType.LAZY)
+    //@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "SUB_SYSTEM_CATEGORY_ID", referencedColumnName = "ID")
     private SubSystemCategoryEntity subSystemCategoryEntity;
 
     @Column(nullable = false, updatable = false, name = "CREATED_AT")
+    @Temporal(TemporalType.TIMESTAMP)
+    @CreatedDate
     private Date createdAt;
 
     @Column(nullable = false, name = "UPDATED_AT")
+    @Temporal(TemporalType.TIMESTAMP)
+    @LastModifiedDate
     private Date updatedAt;
 
     public ContextPathEurekaServiceMappingEntity() {
