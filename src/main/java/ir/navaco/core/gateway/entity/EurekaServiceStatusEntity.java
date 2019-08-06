@@ -19,7 +19,7 @@ public class EurekaServiceStatusEntity {
     @Id
     @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "stt_generator")
-    @SequenceGenerator(name = "stt_generator", sequenceName = EurekaServiceStatusEntity.EUREKA_SERVICE_STATUS_SEQUENCE_NAME, schema = Schema.IF)
+    @SequenceGenerator(name = "stt_generator", sequenceName = EurekaServiceStatusEntity.EUREKA_SERVICE_STATUS_SEQUENCE_NAME, schema = Schema.IF, allocationSize = 1, initialValue = 1)
     private Long id;
 
     @Column(name = "STATUS_TYPE", unique = true, nullable = false)

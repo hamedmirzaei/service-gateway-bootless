@@ -19,7 +19,7 @@ public class SubSystemCategoryEntity {
     @Id
     @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "cat_generator")
-    @SequenceGenerator(name = "cat_generator", sequenceName = SubSystemCategoryEntity.SUB_SYSTEM_CATEGORY_SEQUENCE_NAME, schema = Schema.IF)
+    @SequenceGenerator(name = "cat_generator", sequenceName = SubSystemCategoryEntity.SUB_SYSTEM_CATEGORY_SEQUENCE_NAME, schema = Schema.IF, allocationSize = 1, initialValue = 1)
     private Long id;
 
     @Column(name = "CATEGORY_TYPE", unique = true, nullable = false)

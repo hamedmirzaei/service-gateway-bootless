@@ -20,7 +20,7 @@ public class ContextPathEurekaServiceMappingEntity implements Serializable {
     @Id
     @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ctx_svc_generator")
-    @SequenceGenerator(name = "ctx_svc_generator", sequenceName = ContextPathEurekaServiceMappingEntity.CONTEXT_SERVICE_MAPPING_SEQUENCE_NAME, schema = Schema.IF)
+    @SequenceGenerator(name = "ctx_svc_generator", sequenceName = ContextPathEurekaServiceMappingEntity.CONTEXT_SERVICE_MAPPING_SEQUENCE_NAME, schema = Schema.IF, allocationSize = 1, initialValue = 1)
     private Long id;
 
     @Column(name = "CONTEXT_PATH", unique = true, nullable = false)
