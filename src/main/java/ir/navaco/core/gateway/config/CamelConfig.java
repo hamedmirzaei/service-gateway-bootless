@@ -9,9 +9,11 @@ import org.apache.camel.model.cloud.ServiceCallConfigurationDefinition;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 
 @Configuration
+@PropertySource("classpath:application.properties")
 public class CamelConfig {
 
     @Autowired
@@ -30,7 +32,7 @@ public class CamelConfig {
         config.setServiceDiscovery(eurekaServiceDiscovery);
         // register configuration
         camelContext.setServiceCallConfiguration(config);
-        camelContext.addRoutes(new SetupRouteBuilder());
+        camelContext.addRoutes(new SetupRouteBuilder(env));
         camelRouteSetupRefresherService.setup(camelContext);
         camelContext.start();
 
