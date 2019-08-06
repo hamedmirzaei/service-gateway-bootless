@@ -2,6 +2,7 @@ package ir.navaco.core.gateway.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import ir.navaco.core.gateway.enums.EurekaServiceStatusType;
+import ir.navaco.core.gateway.enums.Schema;
 import ir.navaco.core.gateway.enums.converter.EurekaServiceStatusTypeConverter;
 
 import javax.persistence.*;
@@ -9,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = EurekaServiceStatusEntity.EUREKA_SERVICE_STATUS_TABLE_NAME, schema = "USRPRF")
+@Table(name = EurekaServiceStatusEntity.EUREKA_SERVICE_STATUS_TABLE_NAME, schema = Schema.IF)
 public class EurekaServiceStatusEntity {
 
     public static final String EUREKA_SERVICE_STATUS_TABLE_NAME = "EUREKA_SERVICE_STATUS";
@@ -18,7 +19,7 @@ public class EurekaServiceStatusEntity {
     @Id
     @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "stt_generator")
-    @SequenceGenerator(name = "stt_generator", sequenceName = EurekaServiceStatusEntity.EUREKA_SERVICE_STATUS_SEQUENCE_NAME, schema = "USRPRF")
+    @SequenceGenerator(name = "stt_generator", sequenceName = EurekaServiceStatusEntity.EUREKA_SERVICE_STATUS_SEQUENCE_NAME, schema = Schema.IF)
     private Long id;
 
     @Column(name = "STATUS_TYPE", unique = true, nullable = false)

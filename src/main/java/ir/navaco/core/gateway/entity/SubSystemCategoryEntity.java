@@ -1,6 +1,7 @@
 package ir.navaco.core.gateway.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import ir.navaco.core.gateway.enums.Schema;
 import ir.navaco.core.gateway.enums.SubSystemCategoryType;
 import ir.navaco.core.gateway.enums.converter.SubSystemCategoryTypeConverter;
 
@@ -9,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = SubSystemCategoryEntity.SUB_SYSTEM_CATEGORY_TABLE_NAME, schema = "USRPRF")
+@Table(name = SubSystemCategoryEntity.SUB_SYSTEM_CATEGORY_TABLE_NAME, schema = Schema.IF)
 public class SubSystemCategoryEntity {
 
     public static final String SUB_SYSTEM_CATEGORY_TABLE_NAME = "SUB_SYSTEM_CATEGORY";
@@ -18,7 +19,7 @@ public class SubSystemCategoryEntity {
     @Id
     @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "cat_generator")
-    @SequenceGenerator(name = "cat_generator", sequenceName = SubSystemCategoryEntity.SUB_SYSTEM_CATEGORY_SEQUENCE_NAME, schema = "USRPRF")
+    @SequenceGenerator(name = "cat_generator", sequenceName = SubSystemCategoryEntity.SUB_SYSTEM_CATEGORY_SEQUENCE_NAME, schema = Schema.IF)
     private Long id;
 
     @Column(name = "CATEGORY_TYPE", unique = true, nullable = false)

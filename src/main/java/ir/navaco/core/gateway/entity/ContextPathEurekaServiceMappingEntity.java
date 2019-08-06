@@ -1,5 +1,6 @@
 package ir.navaco.core.gateway.entity;
 
+import ir.navaco.core.gateway.enums.Schema;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -10,16 +11,16 @@ import java.util.Date;
 
 @Entity
 @EntityListeners(AuditingEntityListener.class)
-@Table(name = ContextPathEurekaServiceMappingEntity.CONTEXT_SERVICE_MAPPING_TABLE_NAME, schema = "USRPRF")
+@Table(name = ContextPathEurekaServiceMappingEntity.CONTEXT_SERVICE_MAPPING_TABLE_NAME, schema = Schema.IF)
 public class ContextPathEurekaServiceMappingEntity implements Serializable {
 
-    public static final String CONTEXT_SERVICE_MAPPING_TABLE_NAME = "CONTEXT_PATH_EUREKA_SERVICE_MAPPING";
+    public static final String CONTEXT_SERVICE_MAPPING_TABLE_NAME = "CPES_MAPPING";//"CONTEXT_PATH_EUREKA_SERVICE_MAPPING";
     public static final String CONTEXT_SERVICE_MAPPING_SEQUENCE_NAME = CONTEXT_SERVICE_MAPPING_TABLE_NAME + "_SEQ";
 
     @Id
     @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ctx_svc_generator")
-    @SequenceGenerator(name = "ctx_svc_generator", sequenceName = ContextPathEurekaServiceMappingEntity.CONTEXT_SERVICE_MAPPING_SEQUENCE_NAME, schema = "USRPRF")
+    @SequenceGenerator(name = "ctx_svc_generator", sequenceName = ContextPathEurekaServiceMappingEntity.CONTEXT_SERVICE_MAPPING_SEQUENCE_NAME, schema = Schema.IF)
     private Long id;
 
     @Column(name = "CONTEXT_PATH", unique = true, nullable = false)
