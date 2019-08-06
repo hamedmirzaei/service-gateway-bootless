@@ -7,6 +7,8 @@ import org.apache.camel.cloud.ServiceDefinition;
 import org.apache.camel.impl.cloud.DefaultServiceDefinition;
 import org.apache.camel.impl.cloud.DefaultServiceDiscovery;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.env.Environment;
 import org.springframework.http.*;
@@ -22,20 +24,20 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Service
+@PropertySource(value = "classpath:eureka.properties")
 public class EurekaServiceDiscovery extends DefaultServiceDiscovery {
 
     private List<ServiceDefinition> services = new ArrayList<>();
 
-    //TODO read from config file
-    private String serverUrl = "http://localhost:8090/eureka/";
+    private Environment environment;
 
     @Autowired
-    Environment environment;
+    public EurekaServiceDiscovery(Environment environment) {
+        this.environment = environment;
+    }
 
     @Override
     public List<ServiceDefinition> getServices(String name) {
-
-        List<ServiceDefinition> serviceDefinitions = new ArrayList<>();
 
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory());
@@ -46,7 +48,7 @@ public class EurekaServiceDiscovery extends DefaultServiceDiscovery {
         HttpEntity<Object> httpEntity = new HttpEntity<>(headers);
 
         ResponseEntity<String> response = restTemplate.exchange(
-                String.format("%sapps/%s", serverUrl, name),
+                String.format("%sapps/%s", environment.getProperty("server.url"), name),
                 HttpMethod.GET,
                 httpEntity,
                 new ParameterizedTypeReference<String>() {
@@ -70,4 +72,5 @@ public class EurekaServiceDiscovery extends DefaultServiceDiscovery {
 
         return services;
     }
+
 }

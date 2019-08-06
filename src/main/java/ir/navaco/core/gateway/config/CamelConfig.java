@@ -6,18 +6,23 @@ import ir.navaco.core.gateway.service.CamelRouteSetupRefresherService;
 import org.apache.camel.CamelContext;
 import org.apache.camel.impl.DefaultCamelContext;
 import org.apache.camel.model.cloud.ServiceCallConfigurationDefinition;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 
 @Configuration
 public class CamelConfig {
+
+    @Autowired
+    Environment env;
 
     @Bean(name = "camelContext")
     public CamelContext camelContext(CamelRouteSetupRefresherService camelRouteSetupRefresherService) throws Exception {
         CamelContext camelContext = new DefaultCamelContext();
 
         // eureka service discovery
-        EurekaServiceDiscovery eurekaServiceDiscovery = new EurekaServiceDiscovery();
+        EurekaServiceDiscovery eurekaServiceDiscovery = new EurekaServiceDiscovery(env);
         eurekaServiceDiscovery.setCamelContext(camelContext);
         // configure camel service call
         ServiceCallConfigurationDefinition config = new ServiceCallConfigurationDefinition();
