@@ -44,13 +44,31 @@ public class ServiceGatewayController {
         return contextPathEurekaServiceMappingService.getAllContextPathEurekaServiceMappingEntities();
     }
 
+    @GetMapping(value = "/services/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ContextPathEurekaServiceMappingEntity getService(@PathVariable("id") Long id) {
+        return contextPathEurekaServiceMappingService.getContextPathEurekaServiceMappingEntity(id);
+    }
+
     @PostMapping(value = "/services", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ContextPathEurekaServiceMappingEntity addService(@RequestBody ContextPathEurekaServiceMappingEntity contextPathEurekaServiceMappingEntity) {
         ContextPathEurekaServiceMappingEntity ce = contextPathEurekaServiceMappingService.addContextPathEurekaServiceMappingEntity(contextPathEurekaServiceMappingEntity);
-        // if the service is active and published to the world
+        // if the service is active and published to the world then refresh the camel routes
         if (ce.getEurekaServiceStatusEntity().getEurekaServiceStatusType() == EurekaServiceStatusType.PUBLISHED)
-            refreshRoutes();
+            camelRouteSetupRefresherService.refresh();
         return ce;
+    }
+
+    @PutMapping(value = "/services", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ContextPathEurekaServiceMappingEntity updateService(@RequestBody ContextPathEurekaServiceMappingEntity contextPathEurekaServiceMappingEntity) {
+        ContextPathEurekaServiceMappingEntity ce = contextPathEurekaServiceMappingService.addContextPathEurekaServiceMappingEntity(contextPathEurekaServiceMappingEntity);
+        // if the service changed then refresh the camel routes
+        camelRouteSetupRefresherService.refresh();
+        return ce;
+    }
+
+    @DeleteMapping(value = "/services/{id}")
+    public ContextPathEurekaServiceMappingEntity deleteService(@PathVariable("id") Long id) {
+        return contextPathEurekaServiceMappingService.getContextPathEurekaServiceMappingEntity(id);
     }
 
     @GetMapping(value = "/statuses", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -61,12 +79,6 @@ public class ServiceGatewayController {
     @GetMapping(value = "/categories", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<SubSystemCategoryEntity> getAllCategories() {
         return subSystemCategoryService.getSubSystemCategoryEntities();
-    }
-
-    @GetMapping("/refresh")
-    public String refreshRoutes() {
-        camelRouteSetupRefresherService.refresh();
-        return "CamelContext Refreshed Successfully";
     }
 
 }

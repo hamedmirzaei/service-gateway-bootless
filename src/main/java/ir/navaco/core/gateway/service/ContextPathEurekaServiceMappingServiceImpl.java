@@ -46,4 +46,16 @@ public class ContextPathEurekaServiceMappingServiceImpl implements ContextPathEu
     public ContextPathEurekaServiceMappingEntity addContextPathEurekaServiceMappingEntity(ContextPathEurekaServiceMappingEntity contextPathEurekaServiceMappingEntity) {
         return contextPathEurekaServiceMappingRepository.save(contextPathEurekaServiceMappingEntity);
     }
+
+    @Transactional
+    @Override
+    public ContextPathEurekaServiceMappingEntity updateContextPathEurekaServiceMappingEntity(ContextPathEurekaServiceMappingEntity contextPathEurekaServiceMappingEntity) {
+        return contextPathEurekaServiceMappingRepository.save(contextPathEurekaServiceMappingEntity);
+    }
+
+    @Transactional
+    @Override
+    public void deleteContextPathEurekaServiceMappingEntity(Long id) {
+        contextPathEurekaServiceMappingRepository.deleteById(id);
+    }
 }

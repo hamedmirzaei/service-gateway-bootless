@@ -15,4 +15,8 @@ public interface ContextPathEurekaServiceMappingService {
 
     ContextPathEurekaServiceMappingEntity addContextPathEurekaServiceMappingEntity(ContextPathEurekaServiceMappingEntity contextPathEurekaServiceMappingEntity);
 
+    ContextPathEurekaServiceMappingEntity updateContextPathEurekaServiceMappingEntity(ContextPathEurekaServiceMappingEntity contextPathEurekaServiceMappingEntity);
+
+    void deleteContextPathEurekaServiceMappingEntity(Long id);
+
 }
