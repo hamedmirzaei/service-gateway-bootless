@@ -3,7 +3,6 @@ package ir.navaco.core.gateway.api;
 import ir.navaco.core.gateway.entity.ContextPathEurekaServiceMappingEntity;
 import ir.navaco.core.gateway.entity.EurekaServiceStatusEntity;
 import ir.navaco.core.gateway.entity.SubSystemCategoryEntity;
-import ir.navaco.core.gateway.enums.EurekaServiceStatusType;
 import ir.navaco.core.gateway.service.CamelRouteSetupRefresherService;
 import ir.navaco.core.gateway.service.ContextPathEurekaServiceMappingService;
 import ir.navaco.core.gateway.service.EurekaServiceStatusService;
@@ -53,8 +52,7 @@ public class ServiceGatewayController {
     public ContextPathEurekaServiceMappingEntity addService(@RequestBody ContextPathEurekaServiceMappingEntity contextPathEurekaServiceMappingEntity) {
         ContextPathEurekaServiceMappingEntity ce = contextPathEurekaServiceMappingService.addContextPathEurekaServiceMappingEntity(contextPathEurekaServiceMappingEntity);
         // if the service is active and published to the world then refresh the camel routes
-        if (ce.getEurekaServiceStatusEntity().getEurekaServiceStatusType() == EurekaServiceStatusType.PUBLISHED)
-            camelRouteSetupRefresherService.refresh();
+        camelRouteSetupRefresherService.addService(ce);
         return ce;
     }
 
@@ -62,13 +60,14 @@ public class ServiceGatewayController {
     public ContextPathEurekaServiceMappingEntity updateService(@RequestBody ContextPathEurekaServiceMappingEntity contextPathEurekaServiceMappingEntity) {
         ContextPathEurekaServiceMappingEntity ce = contextPathEurekaServiceMappingService.addContextPathEurekaServiceMappingEntity(contextPathEurekaServiceMappingEntity);
         // if the service changed then refresh the camel routes
-        camelRouteSetupRefresherService.refresh();
+        camelRouteSetupRefresherService.updateService(ce);
         return ce;
     }
 
     @DeleteMapping(value = "/services/{id}")
-    public ContextPathEurekaServiceMappingEntity deleteService(@PathVariable("id") Long id) {
-        return contextPathEurekaServiceMappingService.getContextPathEurekaServiceMappingEntity(id);
+    public void deleteService(@PathVariable("id") Long id) {
+        camelRouteSetupRefresherService.deleteService(contextPathEurekaServiceMappingService.getContextPathEurekaServiceMappingEntity(id));
+        contextPathEurekaServiceMappingService.deleteContextPathEurekaServiceMappingEntity(id);
     }
 
     @GetMapping(value = "/statuses", produces = MediaType.APPLICATION_JSON_VALUE)

@@ -18,6 +18,7 @@ public class SetupRouteBuilder extends RouteBuilder {
                 .host(env.getProperty("rest.host"))
                 .port(env.getProperty("rest.port"))
                 .bindingMode(RestBindingMode.json)
+                .component("spark-rest")
                 .componentProperty("matchOnUriPrefix", "true");
 
         from("spark-rest:get:health")
