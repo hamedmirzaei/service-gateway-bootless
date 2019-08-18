@@ -7,7 +7,6 @@ import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
@@ -17,25 +16,10 @@ import javax.servlet.ServletException;
 @Configuration
 @EnableWebMvc
 @ComponentScan(basePackages = {"ir.navaco.core.gateway.*"})
-public class WebAppConfig extends AbstractAnnotationConfigDispatcherServletInitializer implements WebApplicationInitializer, WebMvcConfigurer {
+public class WebAppConfig implements WebApplicationInitializer, WebMvcConfigurer {
 
     @Override
     public void onStartup(ServletContext servletContext) throws ServletException {
-    }
-
-    @Override
-    protected Class<?>[] getRootConfigClasses() {
-        return new Class[]{PersistenceJPAConfig.class};
-    }
-
-    @Override
-    protected Class<?>[] getServletConfigClasses() {
-        return new Class[]{WebAppConfig.class};
-    }
-
-    @Override
-    protected String[] getServletMappings() {
-        return new String[]{"/"};
     }
 
     @Bean

@@ -5,6 +5,11 @@ import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatche
 public class WebInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 
     @Override
+    protected Class<?>[] getRootConfigClasses() {
+        return new Class[]{PersistenceJPAConfig.class};
+    }
+
+    @Override
     protected Class<?>[] getServletConfigClasses() {
         return new Class[]{WebAppConfig.class, CamelConfig.class};
     }
@@ -12,11 +17,6 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
     @Override
     protected String[] getServletMappings() {
         return new String[]{"/"};
-    }
-
-    @Override
-    protected Class<?>[] getRootConfigClasses() {
-        return null;
     }
 
 }
